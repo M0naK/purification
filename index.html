@@ -16,18 +16,29 @@
   <p>誰かに対する憤りや不満があれば、</p>
   <p>その感情を吐き出してください。</p>
   <p>心の安堵はここから始まります。</p>
-  <form id="myForm">
+  <form id="myForm" netlify>
     <textarea name="message" id="message" placeholder="怒りを入力"></textarea><br>
     <input type="button" value="送信" onclick="submitForm()">
   </form>
+  
+<script>
+  function submitForm() {
+    // フォーム要素を取得
+    const form = document.getElementById('myForm');
+    
+    // FormDataオブジェクトを作成
+    const formData = new FormData(form);
 
-  <script>
-    function submitForm() {
-      // ここで何らかの送信処理（例えば、Netlify Formsや他のAPIを使って）
-
-      // 送信が成功したと仮定して、thanks.htmlに遷移
+    // Netlify Formsに送信
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString()
+    }).then(() => {
+      // 送信が成功したら、thanks.htmlに遷移
       window.location.href = "omedeta.html";
-    }
-  </script>
+    }).catch((error) => console.error(error));
+  }
+</script>
 </body>
 </html>
